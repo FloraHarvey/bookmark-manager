@@ -9,6 +9,16 @@ ENV["RACK_ENV"] ||= 'development'
 
   data_mapper_config
 
+enable :sessions 
+
+  helpers do
+    def current_user
+      # p session['id']
+      User.first(:id => session['id'])
+    end
+
+  end
+
   get '/' do
     'Hello World'
     erb :'links/home'
@@ -16,10 +26,13 @@ ENV["RACK_ENV"] ||= 'development'
 
   post '/sign-up' do
     @user = User.create(email: params[:email])
+    session['id'] = @user.id
     redirect '/links'
   end
 
   get '/links' do
+     
+    # @user = current_user
     @links = Link.all
     erb :'links/index'
   end

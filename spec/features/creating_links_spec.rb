@@ -5,6 +5,7 @@
 feature "Save new link" do
 
   scenario "User can save a new link to the bookmark manager" do
+    sign_up
     visit '/links'
     click_button 'Add Link'
     fill_in :title, with: 'Makers Academy'

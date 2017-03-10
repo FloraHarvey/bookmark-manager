@@ -6,7 +6,7 @@ feature "Signing in" do
 
   scenario "After signing up the user is added to the user count " do
     sign_up
-    p User.all
+    # p User.all
     expect(User.count).to eq(1)
   end
 end

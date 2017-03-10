@@ -8,6 +8,7 @@ feature "Shows list of links" do
     tag = Tag.create(tag_name: 'Coding')
     link.tags << tag
     link.save
+    sign_up
     visit '/links'
     expect(page.status_code).to eq 200
     within 'ul#links' do
