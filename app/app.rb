@@ -9,11 +9,10 @@ ENV["RACK_ENV"] ||= 'development'
 
   data_mapper_config
 
-enable :sessions 
+enable :sessions
 
   helpers do
     def current_user
-      # p session['id']
       User.first(:id => session['id'])
     end
 
@@ -21,18 +20,23 @@ enable :sessions
 
   get '/' do
     'Hello World'
-    erb :'links/home'
+    erb :home
+  end
+
+  get '/new-user' do
+    erb :'links/sign_up'
   end
 
   post '/sign-up' do
     @user = User.create(email: params[:email])
+    password_hash = BCrypt::Password.create(params[:password])
+    @user.update(:password => password_hash)
+    @user.save
     session['id'] = @user.id
     redirect '/links'
   end
 
   get '/links' do
-     
-    # @user = current_user
     @links = Link.all
     erb :'links/index'
   end
